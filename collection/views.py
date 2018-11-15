@@ -1,6 +1,7 @@
 from django.shortcuts import render
+from collection.models import Blog
 
 def index(request):
-    number = 2
+    blogs = Blog.objects.all()
     thing = "Thing name"
-    return render(request, 'index.html', {'number': number, 'thing': thing,})
+    return render(request, 'index.html', {'blogs': blogs,})

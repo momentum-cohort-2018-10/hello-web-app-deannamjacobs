@@ -6,7 +6,12 @@ Homepage - {{ block.super }}
 
 {% block content %}
 <h1>Mama Meets Coding: The Blog</h1>
-<p>There are {{ number|apnumber }} kids!</p>
+<p>There are two kids!</p>
 <p>There is one mama.</p>
 <p>And coding must be learned.</p>
+{% for blog in blogs %}
+<h2>{{ blog.name }}</h2>
+<p>{{ blog.description }}</p>
+{% endfor %}
+
 {% endblock content %}
