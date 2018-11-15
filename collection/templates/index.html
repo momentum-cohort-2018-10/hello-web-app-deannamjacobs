@@ -5,18 +5,19 @@ Homepage - {{ block.super }}
 {% endblock title %}
 
 {% block content %}
-{% for thing in things %}
-<h2><a href="{% url 'thing_detail' slug=thing.slug %}">
-        {{ blog.name }}
-    </a></h2>
-<p>{{ blog.description }}</p>
-{% endfor %}
 <h1>Mama Meets Coding: The Blog</h1>
 <p>There are two kids!</p>
 <p>There is one mama.</p>
 <p>And coding must be learned.</p>
 {% for blog in blogs %}
-<h2>{{ blog.name }}</h2>
+<h2><a href="{% url 'blog_detail' slug=blog.slug %}">
+        {{ blog.name }}
+    </a></h2>
 <p>{{ blog.description }}</p>
+{% endfor %}
+
+{% for blog in blogs %}
+<!-- <h2>{{ blog.name }}</h2>
+<p>{{ blog.description }}</p> -->
 {% endfor %}
 {% endblock content %}

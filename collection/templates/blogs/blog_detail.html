@@ -4,14 +4,16 @@
 Homepage - {{ block.super }}
 {% endblock title %}
 
-{% block content %}
 <h1>Mama Meets Coding: The Blog</h1>
 <p>There are two kids!</p>
 <p>There is one mama.</p>
 <p>And coding must be learned.</p>
-{% for blog in blogs %}
+{% block content %}
 <h2>{{ blog.name }}</h2>
 <p>{{ blog.description }}</p>
+{% for blog in blogs %}
+<a href="{% url 'edit_blog' slug=blog.slug %}">
+    Edit me!
+</a>
 {% endfor %}
-
 {% endblock content %}
