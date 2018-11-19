@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from collection.forms import BlogForm
 from collection.models import Blog
 from django.template.defaultfilters import slugify
+from django.contrib.auth.decorators import login_required
+from django.http import Http404
 
 
 def index(request):
@@ -14,9 +16,13 @@ def blog_detail(request, slug):
     blog = Blog.objects.get(slug=slug)
     return render(request, 'blogs/blog_detail.html', {'blog': blog, })
 
-
+@login_required
 def edit_blog(request, slug):
     blog = Blog.objects.get(slug=slug)
+   
+    if blog.user != request.user:
+        raise Http404
+
     form_class = BlogForm
 
     if request.method == 'POST':
@@ -48,4 +54,13 @@ def create_blog(request):
     return render(request, 'blogs/create_blog.html', {
         'form': form,
     })      
-
+def browse_by_name(request, initial=None):
+    if initial:
+        blogs = Blog.objects.filter(
+            name__istartswith=initial).order_by('name')
+    else:
+        blogs = Blog.objects.all().order_by('name')
+    return render(request, 'search/search.html', {
+        'blogs': blogs,
+        'initial': initial,
+    })

@@ -11,9 +11,12 @@ Homepage - {{ block.super }}
 {% block content %}
 <h2>{{ blog.name }}</h2>
 <p>{{ blog.description }}</p>
-{% for blog in blogs %}
-<a href="{% url 'edit_blog' slug=blog.slug %}">
-    Edit me!
-</a>
-{% endfor %}
+<!-- {% for blog in blogs %}  -->
+{% if user == blog.user %}
+<p>
+    <a href="{% url 'edit_blog' slug=blog.slug %}">
+        Edit me!
+    </a>
+</p>
+{% endif %}
 {% endblock content %}
