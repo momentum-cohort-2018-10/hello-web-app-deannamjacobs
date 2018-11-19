@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from collection.forms import BlogForm
 from collection.models import Blog
+from django.template.defaultfilters import slugify
 
 
 def index(request):
@@ -30,3 +31,21 @@ def edit_blog(request, slug):
         'blog': blog,
         'form': form,
     })
+
+def create_blog(request):
+    form_class = BlogForm
+    if request.method == 'POST':
+        form = form_class(request.POST)
+        if form.is_valid():
+            blog = form.save(commit=False)
+            blog.user = request.user
+            blog.slug = slugify(blog.name)
+            blog.save()
+            return redirect('blog_detail', slug=blog.slug)
+    else:
+        form = form_class()
+        
+    return render(request, 'blogs/create_blog.html', {
+        'form': form,
+    })      
+
